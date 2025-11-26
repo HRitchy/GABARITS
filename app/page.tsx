@@ -49,7 +49,7 @@ const QUESTIONS: Question[] = [
       'Quelle est la fonction de contrôle assurée par le capteur I1 sur ce montage ?',
     correctAnswer: 'Position de l’attache accouplée au câble',
     choices: [
-      'Position du câble avant et après lembrayage',
+      'Position du câble avant et après l’embrayage',
       'Usure sur les mors d’attache et les paliers lisses',
       'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
       'Position de l’attache accouplée au câble',
@@ -77,7 +77,7 @@ const QUESTIONS: Question[] = [
       'Quelle est la fonction de contrôle principale assurée par les capteurs I2 / I3 ?',
     correctAnswer: 'Position du câble dans la zone d’embrayage - entrée',
     choices: [
-      'Position du câble avant et après lembrayage',
+      'Position du câble avant et après l’embrayage',
       'Position du câble dans la zone d’embrayage - entrée',
       'Présence du galet de débrayage',
       'Position de l’attache accouplée au câble',
@@ -94,7 +94,7 @@ const QUESTIONS: Question[] = [
       'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
       'Position du câble avec attache',
       'Usure sur les mors d’attache et les paliers lisses',
-      'Position du câble avant et après lembrayage',
+      'Position du câble avant et après l’embrayage',
     ],
   },
   {
