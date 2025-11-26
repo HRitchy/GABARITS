@@ -232,9 +232,7 @@ export default function HomePage() {
                 {scoreSur20.toFixed(2)} / 20
               </span>
             </p>
-            <p className="text-sm text-slate-300">
-              Chaque bonne réponse rapporte {POINTS_PAR_QUESTION} points.
-            </p>
+
           </section>
 
           <section className="space-y-4 mb-8">
