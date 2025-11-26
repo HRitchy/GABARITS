@@ -292,7 +292,7 @@ export default function HomePage() {
         <div className="w-full max-w-5xl p-4 sm:p-8">
           <header className="mb-6 text-center">
             <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
-              Quiz fonction de contrôle des capteurs
+              Quiz fonction de contrôle des gabarits
             </h1>
             <p className="text-slate-300 text-sm sm:text-base">
               9 questions, chaque bonne réponse vaut à peu près 2 
