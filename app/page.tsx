@@ -1,325 +1,310 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, FormEvent } from 'react';
-
-type Question = {
-  id: string;
-  code: string;
-  image: string;
-  correctLabel: string;
-  options: string[];
-};
+import { useState } from 'react';
 
 const POINTS_PAR_QUESTION = 2.2225;
 
-const controlFunctions = {
-  I0: 'Usure sur les mors d’attache et les paliers lisses',
-  I1: 'Position de l’attache accouplée au câble',
-  O2I2: 'Position du câble avec attache',
-  I3: 'Position du câble dans la zone d’embrayage - entrée',
-  O3: 'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
-  O4I4: 'Position du câble avant et après l’embrayage',
-  I6: 'Présence du galet de débrayage',
-  O5I5: 'Ouverture de l’attache vide',
-  O7: 'Position de repos de l’attache, présence des galets de guidage et de roulement',
-} as const;
+type QuestionId =
+  | 'I0'
+  | 'I1'
+  | 'O2'
+  | 'I2I3'
+  | 'I4'
+  | 'I5'
+  | 'I6'
+  | 'O3'
+  | 'O7';
 
-const questions: Question[] = [
+interface Question {
+  id: QuestionId;
+  imageSrc: string;
+  title: string;
+  prompt: string;
+  correctAnswer: string;
+  choices: string[];
+}
+
+const QUESTIONS: Question[] = [
   {
     id: 'I0',
-    code: 'I0',
-    image: '/I0.jpg',
-    correctLabel: controlFunctions.I0,
-    options: [
-      controlFunctions.I0,
-      controlFunctions.I1,
-      controlFunctions.O4I4,
-      controlFunctions.O7,
+    imageSrc: '/I0.jpg',
+    title: 'Capteur I0',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur I0 sur ce montage ?',
+    correctAnswer: 'Usure sur les mors d’attache et les paliers lisses',
+    choices: [
+      'Usure sur les mors d’attache et les paliers lisses',
+      'Position du câble avec attache',
+      'Présence du galet de débrayage',
+      'Ouverture de l’attache vide',
     ],
   },
   {
     id: 'I1',
-    code: 'I1',
-    image: '/I1.jpg',
-    correctLabel: controlFunctions.I1,
-    options: [
-      controlFunctions.I1,
-      controlFunctions.I6,
-      controlFunctions.O2I2,
-      controlFunctions.O3,
+    imageSrc: '/I1.jpg',
+    title: 'Capteur I1',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur I1 sur ce montage ?',
+    correctAnswer: 'Position de l’attache accouplée au câble',
+    choices: [
+      'Position de l’attache accouplée au câble',
+      'Usure sur les mors d’attache et les paliers lisses',
+      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
+      'Position du câble avant et après l’embrayage',
     ],
   },
   {
     id: 'O2',
-    code: 'O2 / I2',
-    image: '/O2.jpg',
-    correctLabel: controlFunctions.O2I2,
-    options: [
-      controlFunctions.O2I2,
-      controlFunctions.I0,
-      controlFunctions.O3,
-      controlFunctions.O5I5,
+    imageSrc: '/O2.jpg',
+    title: 'Capteur O2',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur O2 sur ce montage ?',
+    correctAnswer: 'Position du câble avec attache',
+    choices: [
+      'Position du câble avec attache',
+      'Position du câble dans la zone d’embrayage - entrée',
+      'Ouverture de l’attache vide',
+      'Position de repos de l’attache, présence des galets de guidage et de roulement',
     ],
   },
   {
-    id: 'I3',
-    code: 'I3',
-    image: '/I3-I2.jpg',
-    correctLabel: controlFunctions.I3,
-    options: [
-      controlFunctions.I3,
-      controlFunctions.O4I4,
-      controlFunctions.I6,
-      controlFunctions.O2I2,
+    id: 'I2I3',
+    imageSrc: '/I3-I2.jpg',
+    title: 'Capteurs I2 / I3',
+    prompt:
+      'Quelle est la fonction de contrôle principale assurée par les capteurs I2 / I3 ?',
+    correctAnswer: 'Position du câble dans la zone d’embrayage - entrée',
+    choices: [
+      'Position du câble dans la zone d’embrayage - entrée',
+      'Position du câble avant et après l’embrayage',
+      'Présence du galet de débrayage',
+      'Position de l’attache accouplée au câble',
     ],
   },
   {
-    id: 'O3',
-    code: 'O3',
-    image: '/O3.jpg',
-    correctLabel: controlFunctions.O3,
-    options: [
-      controlFunctions.O3,
-      controlFunctions.I0,
-      controlFunctions.O7,
-      controlFunctions.O5I5,
-    ],
-  },
-  {
-    id: 'O4I4',
-    code: 'O4 / I4',
-    image: '/I4.jpg',
-    correctLabel: controlFunctions.O4I4,
-    options: [
-      controlFunctions.O4I4,
-      controlFunctions.I1,
-      controlFunctions.O2I2,
-      controlFunctions.I6,
+    id: 'I4',
+    imageSrc: '/I4.jpg',
+    title: 'Capteur I4',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur I4 sur ce montage ?',
+    correctAnswer: 'Position du câble avant et après l’embrayage',
+    choices: [
+      'Position du câble avant et après l’embrayage',
+      'Position du câble avec attache',
+      'Usure sur les mors d’attache et les paliers lisses',
+      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
     ],
   },
   {
     id: 'I6',
-    code: 'I6',
-    image: '/I6.jpg',
-    correctLabel: controlFunctions.I6,
-    options: [
-      controlFunctions.I6,
-      controlFunctions.O3,
-      controlFunctions.O5I5,
-      controlFunctions.I0,
+    imageSrc: '/I6.jpg',
+    title: 'Capteur I6',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur I6 sur ce montage ?',
+    correctAnswer: 'Présence du galet de débrayage',
+    choices: [
+      'Présence du galet de débrayage',
+      'Position du câble avec attache',
+      'Position de repos de l’attache, présence des galets de guidage et de roulement',
+      'Ouverture de l’attache vide',
     ],
   },
   {
-    id: 'O5I5',
-    code: 'O5 / I5',
-    image: '/I5.jpg',
-    correctLabel: controlFunctions.O5I5,
-    options: [
-      controlFunctions.O5I5,
-      controlFunctions.O7,
-      controlFunctions.O4I4,
-      controlFunctions.I1,
+    id: 'I5',
+    imageSrc: '/I5.jpg',
+    title: 'Capteur I5',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur I5 sur ce montage ?',
+    correctAnswer: 'Ouverture de l’attache vide',
+    choices: [
+      'Ouverture de l’attache vide',
+      'Position du câble avant et après l’embrayage',
+      'Position de l’attache accouplée au câble',
+      'Usure sur les mors d’attache et les paliers lisses',
+    ],
+  },
+  {
+    id: 'O3',
+    imageSrc: '/O3.jpg',
+    title: 'Capteur O3',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur O3 sur ce montage ?',
+    correctAnswer:
+      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
+    choices: [
+      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
+      'Position du câble dans la zone d’embrayage - entrée',
+      'Présence du galet de débrayage',
+      'Position du câble avec attache',
     ],
   },
   {
     id: 'O7',
-    code: 'O7',
-    image: '/O7.jpg',
-    correctLabel: controlFunctions.O7,
-    options: [
-      controlFunctions.O7,
-      controlFunctions.I3,
-      controlFunctions.I6,
-      controlFunctions.I0,
+    imageSrc: '/O7.jpg',
+    title: 'Capteur O7',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur O7 sur ce montage ?',
+    correctAnswer:
+      'Position de repos de l’attache, présence des galets de guidage et de roulement',
+    choices: [
+      'Position de repos de l’attache, présence des galets de guidage et de roulement',
+      'Position du câble avant et après l’embrayage',
+      'Ouverture de l’attache vide',
+      'Usure sur les mors d’attache et les paliers lisses',
     ],
   },
 ];
 
 export default function HomePage() {
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [answers, setAnswers] = useState<(string | null)[]>(
+    () => Array(QUESTIONS.length).fill(null)
+  );
+  const [showResults, setShowResults] = useState(false);
 
-  const totalQuestions = questions.length;
+  const currentQuestion = QUESTIONS[currentIndex];
+  const selectedForCurrent = answers[currentIndex];
 
-  const handleChange = (questionId: string, value: string) => {
-    if (submitted) return;
-    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+  const handleChoiceClick = (choice: string) => {
+    if (showResults) return;
+    if (answers[currentIndex] !== null) return; // déjà répondu
+
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[currentIndex] = choice;
+      return next;
+    });
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
+  const handleNext = () => {
+    if (currentIndex === QUESTIONS.length - 1) {
+      setShowResults(true);
+      return;
+    }
+    setCurrentIndex((prev) => prev + 1);
   };
 
-  const correctCount = questions.reduce((acc, q) => {
-    return acc + (answers[q.id] === q.correctLabel ? 1 : 0);
+  const handleRestart = () => {
+    setAnswers(Array(QUESTIONS.length).fill(null));
+    setCurrentIndex(0);
+    setShowResults(false);
+  };
+
+  const totalCorrect = QUESTIONS.reduce((sum, question, index) => {
+    const answered = answers[index];
+    if (answered === question.correctAnswer) {
+      return sum + 1;
+    }
+    return sum;
   }, 0);
 
-  const rawScore = correctCount * POINTS_PAR_QUESTION;
-  const scoreSur20 = Math.round(rawScore * 100) / 100;
+  const scoreSur20 =
+    Math.round(totalCorrect * POINTS_PAR_QUESTION * 100) / 100;
 
-  const reset = () => {
-    setAnswers({});
-    setSubmitted(false);
-  };
+  const quizTermine = answers.every((value) => value !== null);
+
+  if (showResults) {
+    return (
+      <main className="min-h-screen bg-slate-900 text-slate-50 flex justify-center">
+        <div className="w-full max-w-3xl p-4 sm:p-8">
+          <header className="mb-8 text-center">
+            <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
+              Quiz fonction de contrôle
+            </h1>
+            <p className="text-slate-300">
+              Résumé de tes réponses sur les 9 dispositifs de contrôle.
+            </p>
+          </header>
+
+          <section className="mb-8 rounded-xl border border-slate-700 bg-slate-800/60 p-6">
+            <p className="text-lg mb-2">
+              Bonnes réponses :{' '}
+              <span className="font-semibold">
+                {totalCorrect} / {QUESTIONS.length}
+              </span>
+            </p>
+            <p className="text-lg mb-2">
+              Note sur 20 :{' '}
+              <span className="font-semibold">
+                {scoreSur20.toFixed(2)} / 20
+              </span>
+            </p>
+            <p className="text-sm text-slate-300">
+              Chaque bonne réponse rapporte {POINTS_PAR_QUESTION} points.
+            </p>
+          </section>
+
+          <section className="space-y-4 mb-8">
+            {QUESTIONS.map((question, index) => {
+              const answer = answers[index];
+              const isCorrect = answer === question.correctAnswer;
+
+              return (
+                <div
+                  key={question.id}
+                  className="rounded-lg border border-slate-700 bg-slate-800/70 p-4 text-sm"
+                >
+                  <p className="font-semibold mb-1">
+                    Q{index + 1}. {question.title}
+                  </p>
+                  <p className="mb-2 text-slate-300">{question.prompt}</p>
+                  <p>
+                    Ta réponse :{' '}
+                    <span
+                      className={
+                        isCorrect ? 'text-emerald-400' : 'text-rose-400'
+                      }
+                    >
+                      {answer ?? 'Aucune réponse'}
+                    </span>
+                  </p>
+                  {!isCorrect && (
+                    <p className="mt-1 text-slate-300">
+                      Bonne réponse :{' '}
+                      <span className="font-semibold">
+                        {question.correctAnswer}
+                      </span>
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </section>
+
+          <div className="flex justify-center">
+            <button
+              type="button"
+              onClick={handleRestart}
+              className="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-sm sm:text-base font-medium shadow-md"
+            >
+              Recommencer le quiz
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-slate-900 text-slate-50 flex justify-center">
       <div className="w-full max-w-5xl p-4 sm:p-8">
         <header className="mb-6 text-center">
           <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
-            Quiz – Fonction des contrôles d’attache
+            Quiz fonction de contrôle des capteurs
           </h1>
-          <p className="text-sm sm:text-base text-slate-300">
-            9 questions. Chaque bonne réponse vaut{' '}
-            {POINTS_PAR_QUESTION.toLocaleString('fr-FR', {
-              minimumFractionDigits: 4,
-              maximumFractionDigits: 4,
-            })}{' '}
-            points. Note finale sur 20.
+          <p className="text-slate-300 text-sm sm:text-base">
+            9 questions, chaque bonne réponse vaut {POINTS_PAR_QUESTION} points.
+            Note finale sur 20.
           </p>
         </header>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {questions.map((q, index) => {
-            const selected = answers[q.id];
-            const isCorrect = submitted && selected === q.correctLabel;
-
-            return (
-              <section
-                key={q.id}
-                className={`rounded-xl border p-4 sm:p-5 bg-slate-800/60
-                ${
-                  submitted
-                    ? isCorrect
-                      ? 'border-emerald-400'
-                      : 'border-rose-400'
-                    : 'border-slate-700'
-                }`}
-              >
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="sm:w-1/2 flex justify-center">
-                    <Image
-                      src={q.image}
-                      alt={\`Contrôle \${q.code}\`}
-                      width={480}
-                      height={300}
-                      className="rounded-lg object-contain max-h-64 bg-slate-900"
-                    />
-                  </div>
-
-                  <div className="sm:w-1/2">
-                    <h2 className="font-semibold mb-2">
-                      Question {index + 1} – contrôle {q.code}
-                    </h2>
-                    <p className="text-xs sm:text-sm text-slate-300 mb-3">
-                      Sélectionne la fonction de contrôle correspondant à
-                      l’élément représenté.
-                    </p>
-
-                    <div className="space-y-2">
-                      {q.options.map((opt) => {
-                        const checked = selected === opt;
-                        const isCorrectOption =
-                          submitted && opt === q.correctLabel;
-                        const isIncorrectSelected =
-                          submitted && checked && opt !== q.correctLabel;
-
-                        return (
-                          <label
-                            key={opt}
-                            className={\`flex items-start gap-2 rounded-lg border px-3 py-2 text-sm cursor-pointer transition
-                            \${
-                              checked
-                                ? 'border-sky-400 bg-sky-900/40'
-                                : 'border-slate-700 hover:border-sky-400/70 hover:bg-slate-700/60'
-                            }
-                            \${
-                              isCorrectOption
-                                ? 'border-emerald-400 bg-emerald-900/40'
-                                : ''
-                            }
-                            \${
-                              isIncorrectSelected
-                                ? 'border-rose-400 bg-rose-950/60'
-                                : ''
-                            \`}
-                          >
-                            <input
-                              type="radio"
-                              name={q.id}
-                              value={opt}
-                              checked={checked}
-                              onChange={() => handleChange(q.id, opt)}
-                              className="mt-1"
-                            />
-                            <span>{opt}</span>
-                          </label>
-                        );
-                      })}
-                    </div>
-
-                    {submitted && (
-                      <p className="mt-3 text-xs text-slate-300">
-                        Fonction attendue :{' '}
-                        <span className="font-medium">
-                          {q.correctLabel}
-                        </span>
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </section>
-            );
-          })}
-
-          <div className="sticky bottom-0 bg-slate-900/95 backdrop-blur pt-4 pb-2">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-              <button
-                type="submit"
-                disabled={
-                  submitted || Object.keys(answers).length < totalQuestions
-                }
-                className="px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold disabled:bg-slate-700 disabled:text-slate-400"
-              >
-                {submitted ? 'Résultats affichés' : 'Valider mes réponses'}
-              </button>
-              <div className="text-sm text-slate-200">
-                {Object.keys(answers).length}/{totalQuestions} questions
-                renseignées
-              </div>
-            </div>
-
-            {submitted && (
-              <div className="mt-4 rounded-xl border border-slate-700 bg-slate-800/80 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div>
-                  <p className="text-sm">
-                    Bonnes réponses :{' '}
-                    <span className="font-semibold">{correctCount}</span> /{' '}
-                    {totalQuestions}
-                  </p>
-                  <p className="text-lg font-semibold mt-1">
-                    Note :{' '}
-                    {scoreSur20.toLocaleString('fr-FR', {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}{' '}
-                    / 20
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={reset}
-                  className="px-4 py-2 rounded-full border border-slate-600 text-sm hover:bg-slate-700"
-                >
-                  Recommencer
-                </button>
-              </div>
-            )}
-          </div>
-        </form>
-      </div>
-    </main>
-  );
-}
+        <section className="mb-6 flex justify-between items-center text-sm sm:text-base">
+          <span>
+            Question{' '}
+            <span className="font-semibold">{currentIndex + 1}</span> /{' '}
+            {QUESTIONS.length}
+          </span>
+          <span className="text-slate-300">
+            Bonnes réponses pour l’instant :{' '}
+            <span classNa
