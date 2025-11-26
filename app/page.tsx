@@ -35,9 +35,9 @@ const QUESTIONS: Question[] = [
       'Quelle est la fonction de contrôle assurée par le capteur I0 sur ce montage ?',
     correctAnswer: 'Usure sur les mors d’attache et les paliers lisses',
     choices: [
-      'Présence du galet de débrayage',
-      'Position du câble avec attache',
       'Usure sur les mors d’attache et les paliers lisses',
+      'Position du câble avec attache',
+      'Présence du galet de débrayage',
       'Ouverture de l’attache vide',
     ],
   },
