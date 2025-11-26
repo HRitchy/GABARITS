@@ -117,7 +117,7 @@ const QUESTIONS: Question[] = [
     title: 'Capteur I5',
     prompt:
       'Quelle est la fonction de contrôle assurée par le capteur I5 sur ce montage ?',
-    correctAnswer: 'Ouverture de l’attache vide',
+    correctAnswer: 'Ouverture de lattache vide',
     choices: [
       'Position de l’attache accouplée au câble',
       'Position du câble avant et après lembrayage',
