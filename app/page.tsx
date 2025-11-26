@@ -89,7 +89,7 @@ const QUESTIONS: Question[] = [
     title: 'Capteur I4',
     prompt:
       'Quelle est la fonction de contrôle assurée par le capteur I4 sur ce montage ?',
-    correctAnswer: 'Position du câble avant et après l’embrayage',
+    correctAnswer: 'Position du câble avant et après lembrayage',
     choices: [
       'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
       'Position du câble avec attache',
