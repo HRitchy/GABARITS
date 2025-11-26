@@ -49,10 +49,10 @@ const QUESTIONS: Question[] = [
       'Quelle est la fonction de contrôle assurée par le capteur I1 sur ce montage ?',
     correctAnswer: 'Position de l’attache accouplée au câble',
     choices: [
-      'Position de l’attache accouplée au câble',
+      'Position du câble avant et après l'embrayage',
       'Usure sur les mors d’attache et les paliers lisses',
       'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
-      'Position du câble avant et après l’embrayage',
+      'Position de l’attache accouplée au câble',
     ],
   },
   {
@@ -77,8 +77,8 @@ const QUESTIONS: Question[] = [
       'Quelle est la fonction de contrôle principale assurée par les capteurs I2 / I3 ?',
     correctAnswer: 'Position du câble dans la zone d’embrayage - entrée',
     choices: [
+      'Position du câble avant et après l'embrayage',
       'Position du câble dans la zone d’embrayage - entrée',
-      'Position du câble avant et après l’embrayage',
       'Présence du galet de débrayage',
       'Position de l’attache accouplée au câble',
     ],
@@ -91,10 +91,10 @@ const QUESTIONS: Question[] = [
       'Quelle est la fonction de contrôle assurée par le capteur I4 sur ce montage ?',
     correctAnswer: 'Position du câble avant et après l’embrayage',
     choices: [
-      'Position du câble avant et après l’embrayage',
+      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
       'Position du câble avec attache',
       'Usure sur les mors d’attache et les paliers lisses',
-      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
+      'Position du câble avant et après l'embrayage',
     ],
   },
   {
@@ -119,9 +119,9 @@ const QUESTIONS: Question[] = [
       'Quelle est la fonction de contrôle assurée par le capteur I5 sur ce montage ?',
     correctAnswer: 'Ouverture de l’attache vide',
     choices: [
-      'Ouverture de l’attache vide',
-      'Position du câble avant et après l’embrayage',
       'Position de l’attache accouplée au câble',
+      'Position du câble avant et après l’embrayage',
+      'Ouverture de l'attache vide',
       'Usure sur les mors d’attache et les paliers lisses',
     ],
   },
@@ -149,9 +149,9 @@ const QUESTIONS: Question[] = [
     correctAnswer:
       'Position de repos de l’attache, présence des galets de guidage et de roulement',
     choices: [
-      'Position de repos de l’attache, présence des galets de guidage et de roulement',
+      'Ouverture de l'attache vide',
       'Position du câble avant et après l’embrayage',
-      'Ouverture de l’attache vide',
+      'Position de repos de l’attache, présence des galets de guidage et de roulement',
       'Usure sur les mors d’attache et les paliers lisses',
     ],
   },
