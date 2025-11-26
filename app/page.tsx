@@ -118,4 +118,297 @@ const QUESTIONS: Question[] = [
       'Quelle est la fonction de contrôle assurée par le capteur I5 sur ce montage ?',
     correctAnswer: 'Ouverture de l’attache vide',
     choices: [
-      '
+      'Ouverture de l’attache vide',
+      'Position du câble avant et après l’embrayage',
+      'Position de l’attache accouplée au câble',
+      'Usure sur les mors d’attache et les paliers lisses',
+    ],
+  },
+  {
+    id: 'O3',
+    imageSrc: '/O3.jpg',
+    title: 'Capteur O3',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur O3 sur ce montage ?',
+    correctAnswer:
+      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
+    choices: [
+      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
+      'Position du câble dans la zone d’embrayage - entrée',
+      'Présence du galet de débrayage',
+      'Position du câble avec attache',
+    ],
+  },
+  {
+    id: 'O7',
+    imageSrc: '/O7.jpg',
+    title: 'Capteur O7',
+    prompt:
+      'Quelle est la fonction de contrôle assurée par le capteur O7 sur ce montage ?',
+    correctAnswer:
+      'Position de repos de l’attache, présence des galets de guidage et de roulement',
+    choices: [
+      'Position de repos de l’attache, présence des galets de guidage et de roulement',
+      'Position du câble avant et après l’embrayage',
+      'Ouverture de l’attache vide',
+      'Usure sur les mors d’attache et les paliers lisses',
+    ],
+  },
+];
+
+export default function HomePage() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [answers, setAnswers] = useState<(string | null)[]>(
+    () => Array(QUESTIONS.length).fill(null)
+  );
+  const [showResults, setShowResults] = useState(false);
+
+  const currentQuestion = QUESTIONS[currentIndex];
+  const selectedForCurrent = answers[currentIndex];
+
+  const handleChoiceClick = (choice: string) => {
+    if (showResults) return;
+    if (answers[currentIndex] !== null) return;
+
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[currentIndex] = choice;
+      return next;
+    });
+  };
+
+  const handleNext = () => {
+    if (currentIndex === QUESTIONS.length - 1) {
+      setShowResults(true);
+      return;
+    }
+    setCurrentIndex((prev) => prev + 1);
+  };
+
+  const handleRestart = () => {
+    setAnswers(Array(QUESTIONS.length).fill(null));
+    setCurrentIndex(0);
+    setShowResults(false);
+  };
+
+  const totalCorrect = QUESTIONS.reduce((sum, question, index) => {
+    const answered = answers[index];
+    if (answered === question.correctAnswer) return sum + 1;
+    return sum;
+  }, 0);
+
+  const scoreSur20 =
+    Math.round(totalCorrect * POINTS_PAR_QUESTION * 100) / 100;
+
+  const quizTermine = answers.every((value) => value !== null);
+
+  // On prépare le JSX dans une variable unique
+  let content: JSX.Element;
+
+  if (showResults) {
+    content = (
+      <main className="min-h-screen bg-slate-900 text-slate-50 flex justify-center">
+        <div className="w-full max-w-3xl p-4 sm:p-8">
+          <header className="mb-8 text-center">
+            <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
+              Quiz fonction de contrôle
+            </h1>
+            <p className="text-slate-300">
+              Résumé de tes réponses sur les 9 dispositifs de contrôle.
+            </p>
+          </header>
+
+          <section className="mb-8 rounded-xl border border-slate-700 bg-slate-800/60 p-6">
+            <p className="text-lg mb-2">
+              Bonnes réponses :{' '}
+              <span className="font-semibold">
+                {totalCorrect} / {QUESTIONS.length}
+              </span>
+            </p>
+            <p className="text-lg mb-2">
+              Note sur 20 :{' '}
+              <span className="font-semibold">
+                {scoreSur20.toFixed(2)} / 20
+              </span>
+            </p>
+            <p className="text-sm text-slate-300">
+              Chaque bonne réponse rapporte {POINTS_PAR_QUESTION} points.
+            </p>
+          </section>
+
+          <section className="space-y-4 mb-8">
+            {QUESTIONS.map((question, index) => {
+              const answer = answers[index];
+              const isCorrect = answer === question.correctAnswer;
+
+              return (
+                <div
+                  key={question.id}
+                  className="rounded-lg border border-slate-700 bg-slate-800/70 p-4 text-sm"
+                >
+                  <p className="font-semibold mb-1">
+                    Q{index + 1}. {question.title}
+                  </p>
+                  <p className="mb-2 text-slate-300">{question.prompt}</p>
+                  <p>
+                    Ta réponse :{' '}
+                    <span
+                      className={
+                        isCorrect ? 'text-emerald-400' : 'text-rose-400'
+                      }
+                    >
+                      {answer ?? 'Aucune réponse'}
+                    </span>
+                  </p>
+                  {!isCorrect && (
+                    <p className="mt-1 text-slate-300">
+                      Bonne réponse :{' '}
+                      <span className="font-semibold">
+                        {question.correctAnswer}
+                      </span>
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </section>
+
+          <div className="flex justify-center">
+            <button
+              type="button"
+              onClick={handleRestart}
+              className="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-sm sm:text-base font-medium shadow-md"
+            >
+              Recommencer le quiz
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  } else {
+    content = (
+      <main className="min-h-screen bg-slate-900 text-slate-50 flex justify-center">
+        <div className="w-full max-w-5xl p-4 sm:p-8">
+          <header className="mb-6 text-center">
+            <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
+              Quiz fonction de contrôle des capteurs
+            </h1>
+            <p className="text-slate-300 text-sm sm:text-base">
+              9 questions, chaque bonne réponse vaut {POINTS_PAR_QUESTION}{' '}
+              points. Note finale sur 20.
+            </p>
+          </header>
+
+          <section className="mb-6 flex justify-between items-center text-sm sm:text-base">
+            <span>
+              Question{' '}
+              <span className="font-semibold">{currentIndex + 1}</span> /{' '}
+              {QUESTIONS.length}
+            </span>
+            <span className="text-slate-300">
+              Bonnes réponses pour l’instant :{' '}
+              <span className="font-semibold">{totalCorrect}</span>
+            </span>
+          </section>
+
+          <section className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-start">
+            <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-3 sm:p-4">
+              <Image
+                src={currentQuestion.imageSrc}
+                alt={currentQuestion.title}
+                width={1200}
+                height={800}
+                className="w-full h-auto rounded-lg shadow-lg border border-slate-700 bg-slate-900"
+                sizes="(min-width: 1024px) 640px, 100vw"
+              />
+            </div>
+
+            <div className="rounded-xl border border-slate-700 bg-slate-800/70 p-4 sm:p-5 flex flex-col">
+              <h2 className="text-lg sm:text-xl font-semibold mb-3">
+                {currentQuestion.title}
+              </h2>
+              <p className="text-slate-200 text-sm sm:text-base mb-4">
+                {currentQuestion.prompt}
+              </p>
+
+              <div className="space-y-3">
+                {currentQuestion.choices.map((choice) => {
+                  const selected = selectedForCurrent;
+                  const isSelected = selected === choice;
+                  const isCorrect = choice === currentQuestion.correctAnswer;
+                  const isAnswered = selected !== null;
+
+                  let stateClasses =
+                    'bg-slate-800/60 border-slate-600 hover:border-sky-400 hover:bg-slate-800 cursor-pointer';
+
+                  if (isAnswered) {
+                    if (isCorrect) {
+                      stateClasses = 'bg-emerald-900/40 border-emerald-400';
+                    } else if (isSelected) {
+                      stateClasses = 'bg-rose-900/40 border-rose-500';
+                    } else {
+                      stateClasses =
+                        'bg-slate-900/40 border-slate-700 opacity-70';
+                    }
+                  } else if (isSelected) {
+                    stateClasses = 'bg-sky-900/40 border-sky-400';
+                  }
+
+                  return (
+                    <button
+                      key={choice}
+                      type="button"
+                      onClick={() => handleChoiceClick(choice)}
+                      disabled={isAnswered}
+                      className={`w-full text-left rounded-lg border px-4 py-3 text-sm sm:text-base transition ${stateClasses}`}
+                    >
+                      {choice}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {selectedForCurrent && (
+                <p className="mt-4 text-sm sm:text-base">
+                  {selectedForCurrent === currentQuestion.correctAnswer ? (
+                    <span className="text-emerald-400">
+                      Bonne réponse, le contrôle est correctement identifié.
+                    </span>
+                  ) : (
+                    <span className="text-rose-400">
+                      Mauvaise réponse. La bonne fonction de contrôle est :{' '}
+                      <span className="font-semibold">
+                        {currentQuestion.correctAnswer}
+                      </span>
+                      .
+                    </span>
+                  )}
+                </p>
+              )}
+
+              <div className="mt-6 flex justify-between items-center text-xs sm:text-sm">
+                <span className="text-slate-300">
+                  {quizTermine
+                    ? 'Toutes les questions ont été répondues.'
+                    : 'Réponds à chaque question pour voir ta note finale.'}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  disabled={!selectedForCurrent}
+                  className="ml-3 px-3 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-xs sm:text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {currentIndex === QUESTIONS.length - 1
+                    ? 'Voir le résultat'
+                    : 'Question suivante'}
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    );
+  }
+
+  return content;
+}
