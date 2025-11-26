@@ -295,7 +295,7 @@ export default function HomePage() {
               Quiz fonction de contrôle des capteurs
             </h1>
             <p className="text-slate-300 text-sm sm:text-base">
-              9 questions, chaque bonne réponse vaut {POINTS_PAR_QUESTION}{' '}
+              9 questions, chaque bonne réponse vaut à peu près 2 
               points. Note finale sur 20.
             </p>
           </header>
