@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
+
 
 const POINTS_PAR_QUESTION = 2.2225;
 
@@ -203,7 +204,7 @@ export default function HomePage() {
   const quizTermine = answers.every((value) => value !== null);
 
   // On prépare le JSX dans une variable unique
-  let content: JSX.Element;
+  let content: ReactNode;
 
   if (showResults) {
     content = (
