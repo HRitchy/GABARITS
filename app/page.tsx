@@ -296,7 +296,6 @@ export default function HomePage() {
                 value={lastName}
                 onChange={(event) => setLastName(event.target.value)}
                 className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-50 focus:border-sky-400 focus:outline-none"
-                placeholder="Dupont"
               />
             </div>
 
@@ -310,7 +309,6 @@ export default function HomePage() {
                 value={firstName}
                 onChange={(event) => setFirstName(event.target.value)}
                 className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-50 focus:border-sky-400 focus:outline-none"
-                placeholder="Marie"
               />
             </div>
 
