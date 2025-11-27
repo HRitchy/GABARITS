@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 
 const POINTS_PAR_QUESTION = 2.2225;
@@ -158,11 +158,19 @@ const QUESTIONS: Question[] = [
 ];
 
 export default function HomePage() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [hasStarted, setHasStarted] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<(string | null)[]>(
     () => Array(QUESTIONS.length).fill(null)
   );
   const [showResults, setShowResults] = useState(false);
+  const [hasSentResults, setHasSentResults] = useState(false);
+  const [submissionState, setSubmissionState] = useState<
+    'idle' | 'sending' | 'success' | 'error'
+  >('idle');
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   const currentQuestion = QUESTIONS[currentIndex];
   const selectedForCurrent = answers[currentIndex];
@@ -187,9 +195,15 @@ export default function HomePage() {
   };
 
   const handleRestart = () => {
+    setFirstName('');
+    setLastName('');
+    setHasStarted(false);
     setAnswers(Array(QUESTIONS.length).fill(null));
     setCurrentIndex(0);
     setShowResults(false);
+    setHasSentResults(false);
+    setSubmissionState('idle');
+    setSubmissionError(null);
   };
 
   const totalCorrect = QUESTIONS.reduce((sum, question, index) => {
@@ -203,10 +217,116 @@ export default function HomePage() {
 
   const quizTermine = answers.every((value) => value !== null);
 
+  useEffect(() => {
+    const sendResults = async () => {
+      setSubmissionState('sending');
+      setSubmissionError(null);
+
+      const payload = {
+        firstName,
+        lastName,
+        totalCorrect,
+        scoreSur20,
+        answers: QUESTIONS.map((question, index) => ({
+          questionId: question.id,
+          title: question.title,
+          prompt: question.prompt,
+          selectedAnswer: answers[index],
+          correctAnswer: question.correctAnswer,
+          isCorrect: answers[index] === question.correctAnswer,
+        })),
+      };
+
+      try {
+        const response = await fetch(
+          'https://n8n.lazare974.tech/webhook/edaa9e62-a3ea-4a38-a9c8-90edb34570ce',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Le serveur a renvoyé une erreur');
+        }
+
+        setSubmissionState('success');
+      } catch (error) {
+        setSubmissionState('error');
+        setSubmissionError(
+          error instanceof Error
+            ? error.message
+            : 'Une erreur inconnue est survenue'
+        );
+      } finally {
+        setHasSentResults(true);
+      }
+    };
+
+    if (showResults && !hasSentResults) {
+      void sendResults();
+    }
+  }, [answers, firstName, hasSentResults, lastName, scoreSur20, showResults, totalCorrect]);
+
   // On prépare le JSX dans une variable unique
   let content: ReactNode;
 
-  if (showResults) {
+  if (!hasStarted) {
+    content = (
+      <main className="min-h-screen bg-slate-900 text-slate-50 flex justify-center">
+        <div className="w-full max-w-xl p-4 sm:p-8">
+          <header className="mb-8 text-center">
+            <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
+              Quiz fonction de contrôle des gabarits
+            </h1>
+            <p className="text-slate-300 text-sm sm:text-base">
+              Merci d’indiquer ton nom et prénom avant de commencer le quiz.
+            </p>
+          </header>
+
+          <section className="space-y-4 rounded-xl border border-slate-700 bg-slate-800/60 p-6">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="lastName" className="text-sm sm:text-base font-medium">
+                Nom
+              </label>
+              <input
+                id="lastName"
+                type="text"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-50 focus:border-sky-400 focus:outline-none"
+                placeholder="Dupont"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label htmlFor="firstName" className="text-sm sm:text-base font-medium">
+                Prénom
+              </label>
+              <input
+                id="firstName"
+                type="text"
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-50 focus:border-sky-400 focus:outline-none"
+                placeholder="Marie"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setHasStarted(true)}
+              disabled={!firstName.trim() || !lastName.trim()}
+              className="w-full rounded-lg bg-sky-600 px-4 py-3 text-sm sm:text-base font-semibold hover:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Commencer le quiz
+            </button>
+          </section>
+        </div>
+      </main>
+    );
+  } else if (showResults) {
     content = (
       <main className="min-h-screen bg-slate-900 text-slate-50 flex justify-center">
         <div className="w-full max-w-3xl p-4 sm:p-8">
@@ -216,6 +336,9 @@ export default function HomePage() {
             </h1>
             <p className="text-slate-300">
               Résumé de tes réponses sur les 9 dispositifs de contrôle.
+            </p>
+            <p className="text-slate-400 text-sm mt-2">
+              Participant : <span className="font-semibold">{firstName} {lastName}</span>
             </p>
           </header>
 
@@ -270,6 +393,23 @@ export default function HomePage() {
                 </div>
               );
             })}
+          </section>
+
+          <section className="mb-8 rounded-xl border border-slate-700 bg-slate-800/60 p-4 text-sm sm:text-base">
+            <p className="font-semibold mb-2">Envoi des résultats</p>
+            {submissionState === 'sending' && (
+              <p className="text-slate-300">Envoi en cours…</p>
+            )}
+            {submissionState === 'success' && (
+              <p className="text-emerald-400">
+                Résultats envoyés avec succès au serveur.
+              </p>
+            )}
+            {submissionState === 'error' && (
+              <p className="text-rose-400">
+                Erreur lors de l’envoi : {submissionError ?? 'inconnue'}.
+              </p>
+            )}
           </section>
 
           <div className="flex justify-center">
