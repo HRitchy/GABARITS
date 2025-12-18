@@ -1,32 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState, type ReactNode } from 'react';
-
+import { useEffect, useState } from 'react';
 
 const POINTS_PAR_QUESTION = 2.2225;
 
-type QuestionId =
-  | 'I0'
-  | 'I1'
-  | 'O2'
-  | 'I2I3'
-  | 'I4'
-  | 'I5'
-  | 'I6'
-  | 'O3'
-  | 'O7';
-
-interface Question {
-  id: QuestionId;
-  imageSrc: string;
-  title: string;
-  prompt: string;
-  correctAnswer: string;
-  choices: string[];
-}
-
-const QUESTIONS: Question[] = [
+const QUESTIONS = [
   {
     id: 'I0',
     imageSrc: '/I0.jpg',
@@ -162,20 +141,18 @@ export default function HomePage() {
   const [lastName, setLastName] = useState('');
   const [hasStarted, setHasStarted] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<(string | null)[]>(
-    () => Array(QUESTIONS.length).fill(null)
+  const [answers, setAnswers] = useState(() =>
+    Array(QUESTIONS.length).fill(null)
   );
   const [showResults, setShowResults] = useState(false);
   const [hasSentResults, setHasSentResults] = useState(false);
-  const [submissionState, setSubmissionState] = useState<
-    'idle' | 'sending' | 'success' | 'error'
-  >('idle');
-  const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [submissionState, setSubmissionState] = useState('idle');
+  const [submissionError, setSubmissionError] = useState(null);
 
   const currentQuestion = QUESTIONS[currentIndex];
   const selectedForCurrent = answers[currentIndex];
 
-  const handleChoiceClick = (choice: string) => {
+  const handleChoiceClick = (choice) => {
     if (showResults) return;
     if (answers[currentIndex] !== null) return;
 
@@ -267,10 +244,17 @@ export default function HomePage() {
     if (showResults && !hasSentResults) {
       void sendResults();
     }
-  }, [answers, firstName, hasSentResults, lastName, scoreSur20, showResults, totalCorrect]);
+  }, [
+    answers,
+    firstName,
+    hasSentResults,
+    lastName,
+    scoreSur20,
+    showResults,
+    totalCorrect,
+  ]);
 
-  // On prépare le JSX dans une variable unique
-  let content: ReactNode;
+  let content;
 
   if (!hasStarted) {
     content = (
@@ -287,7 +271,10 @@ export default function HomePage() {
 
           <section className="space-y-4 rounded-xl border border-slate-700 bg-slate-800/60 p-6">
             <div className="flex flex-col gap-2">
-              <label htmlFor="lastName" className="text-sm sm:text-base font-medium">
+              <label
+                htmlFor="lastName"
+                className="text-sm sm:text-base font-medium"
+              >
                 Nom
               </label>
               <input
@@ -300,7 +287,10 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="firstName" className="text-sm sm:text-base font-medium">
+              <label
+                htmlFor="firstName"
+                className="text-sm sm:text-base font-medium"
+              >
                 Prénom
               </label>
               <input
@@ -336,7 +326,10 @@ export default function HomePage() {
               Résumé de tes réponses sur les 9 dispositifs de contrôle.
             </p>
             <p className="text-slate-400 text-sm mt-2">
-              Participant : <span className="font-semibold">{firstName} {lastName}</span>
+              Participant :{' '}
+              <span className="font-semibold">
+                {firstName} {lastName}
+              </span>
             </p>
           </header>
 
@@ -353,7 +346,6 @@ export default function HomePage() {
                 {scoreSur20.toFixed(2)} / 20
               </span>
             </p>
-
           </section>
 
           <section className="space-y-4 mb-8">
@@ -431,8 +423,8 @@ export default function HomePage() {
               Quiz fonction de contrôle des gabarits
             </h1>
             <p className="text-slate-300 text-sm sm:text-base">
-              9 questions, chaque bonne réponse vaut à peu près 2 
-              points. Note finale sur 20.
+              9 questions, chaque bonne réponse vaut à peu près 2 points. Note
+              finale sur 20.
             </p>
           </header>
 
@@ -457,6 +449,7 @@ export default function HomePage() {
                 height={800}
                 className="w-full h-auto rounded-lg shadow-lg border border-slate-700 bg-slate-900"
                 sizes="(min-width: 1024px) 640px, 100vw"
+                priority
               />
             </div>
 
