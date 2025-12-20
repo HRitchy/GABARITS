@@ -271,9 +271,14 @@ export default function HomePage() {
         <div className="w-full max-w-xl p-4 sm:p-8">
           <header className="mb-8 text-center">
             <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
-              Quiz fonction de contrôle des gabarits
+              Quiz sur les sécurités de gare
             </h1>
             <p className="text-slate-300 text-sm sm:text-base">
+             Les sécurités de gare surveillent le câble porteur et l’attache à l’entrée (IN - I) et à
+             la sortie (OUT - O) de la gare. En cas de défaillance, les dispositifs de sécurité arrêtent
+             le téléphérique. L’exploitation ne peut être reprise qu’en repositionnant manuellement
+             les gabarits de contrôle des capteurs.
+              
               Merci d’indiquer ton nom et prénom avant de commencer le quiz.
             </p>
           </header>
@@ -329,7 +334,7 @@ export default function HomePage() {
         <div className="w-full max-w-3xl p-4 sm:p-8">
           <header className="mb-8 text-center">
             <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
-              Quiz fonction de contrôle
+              Quiz sur les sécurités de gare
             </h1>
             <p className="text-slate-300">
               Résumé de tes réponses sur les 9 dispositifs de contrôle.
