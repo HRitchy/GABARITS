@@ -9,9 +9,9 @@ const QUESTIONS = [
   {
     id: 'I0',
     imageSrc: '/I0.jpg',
-    title: 'Ensemble gabarit de contrôle I0',
+    title: 'I0',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le détecteur I0  ?',
+      'Quelle est la fonction du gabarit de contrôle associé au détecteur I0 ?',
     correctAnswer: 'Usure sur les mors d’attache et les paliers lisses',
     choices: [
       'Présence du galet de débrayage',
@@ -23,9 +23,9 @@ const QUESTIONS = [
   {
     id: 'I1',
     imageSrc: '/I1.jpg',
-    title: 'Ensemble gabarit de contrôle I1',
+    title: 'I1',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le détecteur I1  ?',
+      'Quelle est la fonction du gabarit de contrôle associé au détecteur I1 ?',
     correctAnswer: 'Position de l’attache accouplée au câble',
     choices: [
       'Position du câble avant et après lembrayage',
@@ -37,9 +37,9 @@ const QUESTIONS = [
   {
     id: 'O2',
     imageSrc: '/O2.jpg',
-    title: 'Rattrape-câbles O2',
+    title: 'O2',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le détecteur O2 ?',
+      'Quel est le rôle du support de rattrape-câbles O2 ?',
     correctAnswer: 'Supports qui maintiennent le câble tracteur en position si le câble déraille de son logement',
     choices: [
       'Supports qui maintiennent le câble tracteur en position si le câble déraille de son logement',
@@ -51,9 +51,9 @@ const QUESTIONS = [
   {
     id: 'I2I3',
     imageSrc: '/I3-I2.jpg',
-    title: 'Rattrape-câble I3-I2',
+    title: 'I3-I2',
     prompt:
-      'Quelle est la fonction de contrôle principale assurée par le détecteur I3-I2 ?',
+      'Quel est le rôle du support de rattrape-câbles I3-I2 ?',
     correctAnswer: 'Support qui maintient le câble tracteur en position si le câble déraille de son logement en entrant dans la zone de débrayage',
     choices: [
       'Position du câble avant et après lembrayage',
@@ -65,26 +65,26 @@ const QUESTIONS = [
   {
     id: 'I4',
     imageSrc: '/I4.jpg',
-    title: 'Rattrape-câbles I4 et O4',
+    title: 'I4/O4',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le détecteur I4/O4 ?',
-    correctAnswer: 'Position du câble  après débrayage et avant l’embrayage',
+      'Quel est le rôle des supports de rattrape-câbles I4/O4 ?',
+    correctAnswer: 'Position du câble après débrayage et avant l’embrayage',
     choices: [
       'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
       'Position du câble avec attache',
       'Usure sur les mors d’attache et les paliers lisses',
-      'Position du câble  après débrayage et avant l’embrayage',
+      'Position du câble après débrayage et avant l’embrayage',
     ],
   },
   {
     id: 'I6',
     imageSrc: '/I6.jpg',
-    title: 'Ensemble gabarit de contrôle I6',
+    title: 'I6',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le détecteur I6 ?',
-    correctAnswer: 'Présence du galet de débrayage',
+      'Quelle est la fonction du gabarit de contrôle associé au détecteur I6 ?',
+    correctAnswer: 'Présence du galet manoeuvre',
     choices: [
-      'Présence du galet de débrayage',
+      'Présence du galet manoeuvre',
       'Position du câble avec attache',
       'Position de repos de l’attache, présence des galets de guidage et de roulement',
       'Ouverture de l’attache vide',
@@ -93,9 +93,9 @@ const QUESTIONS = [
   {
     id: 'I5',
     imageSrc: '/I5.jpg',
-    title: 'Ensembles gabarit de contrôle I5 et O5',
+    title: 'I5/O5',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le détecteur I5/O5 ?',
+      'Quelle est la fonction du gabarit de contrôle associé au détecteur I5/O5 ?',
     correctAnswer: 'Ouverture de lattache vide',
     choices: [
       'Position de l’attache accouplée au câble',
@@ -107,9 +107,9 @@ const QUESTIONS = [
   {
     id: 'O3',
     imageSrc: '/O3.jpg',
-    title: 'Capteur O3',
+    title: 'O3',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le détecteur O3  ?',
+      'Quel est le rôle du mécanisme O3 ?',
     correctAnswer:
       'Dispositif de positionnement forcé du câble porteur-tracteur',
     choices: [
@@ -122,15 +122,15 @@ const QUESTIONS = [
   {
     id: 'O7',
     imageSrc: '/O7.jpg',
-    title: 'Ensemble gabarit de contrôle O7',
+    title: 'O7',
     prompt:
-      'Quelle est la fonction de contrôle assurée par les détecteurs O7 ?',
+      'Quelle est la fonction du gabarit de contrôle associé aux détecteurs O7 ?',
     correctAnswer:
-      'Position de repos de l’attache, présence des galets de guidage et de roulement',
+      'Position de repos de l’attache, présence du galets de guidage et des galets de roulement',
     choices: [
       'Ouverture de lattache vide',
       'Position du câble avant et après lembrayage',
-      'Position de repos de l’attache, présence des galets de guidage et de roulement',
+      'Position de repos de l’attache, présence du galet de guidage et des galets de roulement',
       'Usure sur les mors d’attache et les paliers lisses',
     ],
   },
