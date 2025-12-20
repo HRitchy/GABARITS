@@ -9,9 +9,9 @@ const QUESTIONS = [
   {
     id: 'I0',
     imageSrc: '/I0.jpg',
-    title: 'Capteur I0',
+    title: 'Ensemble gabarit de contrôle I0',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le capteur I0 sur ce montage ?',
+      'Quelle est la fonction de contrôle assurée par le détecteur I0  ?',
     correctAnswer: 'Usure sur les mors d’attache et les paliers lisses',
     choices: [
       'Présence du galet de débrayage',
@@ -23,9 +23,9 @@ const QUESTIONS = [
   {
     id: 'I1',
     imageSrc: '/I1.jpg',
-    title: 'Capteur I1',
+    title: 'Ensemble gabarit de contrôle I1',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le capteur I1 sur ce montage ?',
+      'Quelle est la fonction de contrôle assurée par le détecteur I1  ?',
     correctAnswer: 'Position de l’attache accouplée au câble',
     choices: [
       'Position du câble avant et après lembrayage',
@@ -37,12 +37,12 @@ const QUESTIONS = [
   {
     id: 'O2',
     imageSrc: '/O2.jpg',
-    title: 'Capteur O2',
+    title: 'Rattrape-câbles O2',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le capteur O2 sur ce montage ?',
-    correctAnswer: 'Position du câble avec attache',
+      'Quelle est la fonction de contrôle assurée par le détecteur O2 ?',
+    correctAnswer: 'Supports qui maintiennent le câble tracteur en position si le câble déraille de son logement',
     choices: [
-      'Position du câble avec attache',
+      'Supports qui maintiennent le câble tracteur en position si le câble déraille de son logement',
       'Position du câble dans la zone d’embrayage - entrée',
       'Ouverture de l’attache vide',
       'Position de repos de l’attache, présence des galets de guidage et de roulement',
@@ -51,13 +51,13 @@ const QUESTIONS = [
   {
     id: 'I2I3',
     imageSrc: '/I3-I2.jpg',
-    title: 'Capteurs I2 / I3',
+    title: 'Rattrape-câble I3-I2',
     prompt:
-      'Quelle est la fonction de contrôle principale assurée par les capteurs I2 / I3 ?',
-    correctAnswer: 'Position du câble dans la zone d’embrayage - entrée',
+      'Quelle est la fonction de contrôle principale assurée par le détecteur I3-I2 ?',
+    correctAnswer: 'Support qui maintient le câble tracteur en position si le câble déraille de son logement en entrant dans la zone de débrayage',
     choices: [
       'Position du câble avant et après lembrayage',
-      'Position du câble dans la zone d’embrayage - entrée',
+      'Support qui maintient le câble tracteur en position si le câble déraille de son logement en entrant dans la zone de débrayage',
       'Présence du galet de débrayage',
       'Position de l’attache accouplée au câble',
     ],
@@ -65,23 +65,23 @@ const QUESTIONS = [
   {
     id: 'I4',
     imageSrc: '/I4.jpg',
-    title: 'Capteur I4',
+    title: 'Rattrape-câbles I4 et O4',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le capteur I4 sur ce montage ?',
-    correctAnswer: 'Position du câble avant et après lembrayage',
+      'Quelle est la fonction de contrôle assurée par le détecteur I4/O4 ?',
+    correctAnswer: 'Position du câble  après débrayage et avant l’embrayage',
     choices: [
       'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
       'Position du câble avec attache',
       'Usure sur les mors d’attache et les paliers lisses',
-      'Position du câble avant et après lembrayage',
+      'Position du câble  après débrayage et avant l’embrayage',
     ],
   },
   {
     id: 'I6',
     imageSrc: '/I6.jpg',
-    title: 'Capteur I6',
+    title: 'Ensemble gabarit de contrôle I6',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le capteur I6 sur ce montage ?',
+      'Quelle est la fonction de contrôle assurée par le détecteur I6 ?',
     correctAnswer: 'Présence du galet de débrayage',
     choices: [
       'Présence du galet de débrayage',
@@ -93,9 +93,9 @@ const QUESTIONS = [
   {
     id: 'I5',
     imageSrc: '/I5.jpg',
-    title: 'Capteur I5',
+    title: 'Ensembles gabarit de contrôle I5 et O5',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le capteur I5 sur ce montage ?',
+      'Quelle est la fonction de contrôle assurée par le détecteur I5/O5 ?',
     correctAnswer: 'Ouverture de lattache vide',
     choices: [
       'Position de l’attache accouplée au câble',
@@ -109,11 +109,11 @@ const QUESTIONS = [
     imageSrc: '/O3.jpg',
     title: 'Capteur O3',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le capteur O3 sur ce montage ?',
+      'Quelle est la fonction de contrôle assurée par le détecteur O3  ?',
     correctAnswer:
-      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
+      'Dispositif de positionnement forcé du câble porteur-tracteur',
     choices: [
-      'Actionnement du dispositif de positionnement forcé du câble porteur-tracteur',
+      'Dispositif de positionnement forcé du câble porteur-tracteur',
       'Position du câble dans la zone d’embrayage - entrée',
       'Présence du galet de débrayage',
       'Position du câble avec attache',
@@ -122,9 +122,9 @@ const QUESTIONS = [
   {
     id: 'O7',
     imageSrc: '/O7.jpg',
-    title: 'Capteur O7',
+    title: 'Ensemble gabarit de contrôle O7',
     prompt:
-      'Quelle est la fonction de contrôle assurée par le capteur O7 sur ce montage ?',
+      'Quelle est la fonction de contrôle assurée par les détecteurs O7 ?',
     correctAnswer:
       'Position de repos de l’attache, présence des galets de guidage et de roulement',
     choices: [
