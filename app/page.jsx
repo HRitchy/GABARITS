@@ -9,6 +9,7 @@ const QUESTIONS = [
   {
     id: 'I0',
     imageSrc: '/I0.jpg',
+    imageSrcSecondary: '/I0.jpg',
     title: 'I0',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I0 ?',
@@ -23,6 +24,7 @@ const QUESTIONS = [
   {
     id: 'I1',
     imageSrc: '/I1.jpg',
+    imageSrcSecondary: '/I1.jpg',
     title: 'I1',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I1 ?',
@@ -37,6 +39,7 @@ const QUESTIONS = [
   {
     id: 'O2',
     imageSrc: '/O2.jpg',
+    imageSrcSecondary: '/O2.jpg',
     title: 'O2',
     prompt:
       'Quel est le rôle du support de rattrape-câbles O2 ?',
@@ -51,6 +54,7 @@ const QUESTIONS = [
   {
     id: 'I2I3',
     imageSrc: '/I3-I2.jpg',
+    imageSrcSecondary: '/I3-I2.jpg',
     title: 'I3-I2',
     prompt:
       'Quel est le rôle du support de rattrape-câbles I3-I2 ?',
@@ -65,6 +69,7 @@ const QUESTIONS = [
   {
     id: 'I4',
     imageSrc: '/I4.jpg',
+    imageSrcSecondary: '/I4.jpg',
     title: 'I4/O4',
     prompt:
       'Quel est le rôle des supports de rattrape-câbles I4/O4 ?',
@@ -79,6 +84,7 @@ const QUESTIONS = [
   {
     id: 'I6',
     imageSrc: '/I6.jpg',
+    imageSrcSecondary: '/I6.jpg',
     title: 'I6',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I6 ?',
@@ -93,6 +99,7 @@ const QUESTIONS = [
   {
     id: 'I5',
     imageSrc: '/I5.jpg',
+    imageSrcSecondary: '/I5.jpg',
     title: 'I5/O5',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I5/O5 ?',
@@ -107,6 +114,7 @@ const QUESTIONS = [
   {
     id: 'O3',
     imageSrc: '/O3.jpg',
+    imageSrcSecondary: '/O3.jpg',
     title: 'O3',
     prompt:
       'Quel est le rôle du mécanisme O3 ?',
@@ -122,6 +130,7 @@ const QUESTIONS = [
   {
     id: 'O7',
     imageSrc: '/O7.jpg',
+    imageSrcSecondary: '/O7.jpg',
     title: 'O7',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé aux détecteurs O7 ?',
@@ -442,15 +451,25 @@ export default function HomePage() {
 
           <section className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-start">
             <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-3 sm:p-4">
-              <Image
-                src={currentQuestion.imageSrc}
-                alt={currentQuestion.title}
-                width={1200}
-                height={800}
-                className="w-full h-auto rounded-lg shadow-lg border border-slate-700 bg-slate-900"
-                sizes="(min-width: 1024px) 640px, 100vw"
-                priority
-              />
+              <div className="grid gap-3">
+                <Image
+                  src={currentQuestion.imageSrc}
+                  alt={`${currentQuestion.title} - vue principale`}
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto rounded-lg shadow-lg border border-slate-700 bg-slate-900"
+                  sizes="(min-width: 1024px) 640px, 100vw"
+                  priority
+                />
+                <Image
+                  src={currentQuestion.imageSrcSecondary}
+                  alt={`${currentQuestion.title} - vue secondaire`}
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto rounded-lg shadow-lg border border-slate-700 bg-slate-900"
+                  sizes="(min-width: 1024px) 640px, 100vw"
+                />
+              </div>
             </div>
 
             <div className="rounded-xl border border-slate-700 bg-slate-800/70 p-4 sm:p-5 flex flex-col">
