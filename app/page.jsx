@@ -9,7 +9,7 @@ const QUESTIONS = [
   {
     id: 'I0',
     imageSrc: '/I0.jpg',
-    imageSrcSecondary: '/I0.jpg',
+    imageSrcSecondary: '/I0(2).jpg',
     title: 'I0',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I0 ?',
@@ -24,7 +24,7 @@ const QUESTIONS = [
   {
     id: 'I1',
     imageSrc: '/I1.jpg',
-    imageSrcSecondary: '/I1.jpg',
+    imageSrcSecondary: '/I1(2).jpg',
     title: 'I1',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I1 ?',
@@ -39,7 +39,7 @@ const QUESTIONS = [
   {
     id: 'O2',
     imageSrc: '/O2.jpg',
-    imageSrcSecondary: '/O2.jpg',
+    imageSrcSecondary: '/O2(2).jpg',
     title: 'O2',
     prompt:
       'Quel est le rôle du support de rattrape-câbles O2 ?',
@@ -54,7 +54,7 @@ const QUESTIONS = [
   {
     id: 'I2I3',
     imageSrc: '/I3-I2.jpg',
-    imageSrcSecondary: '/I3-I2.jpg',
+    imageSrcSecondary: '/I3-I2(2).jpg',
     title: 'I3-I2',
     prompt:
       'Quel est le rôle du support de rattrape-câbles I3-I2 ?',
@@ -69,7 +69,7 @@ const QUESTIONS = [
   {
     id: 'I4',
     imageSrc: '/I4.jpg',
-    imageSrcSecondary: '/I4.jpg',
+    imageSrcSecondary: '/I4(2).jpg',
     title: 'I4/O4',
     prompt:
       'Quel est le rôle des supports de rattrape-câbles I4/O4 ?',
@@ -84,7 +84,7 @@ const QUESTIONS = [
   {
     id: 'I6',
     imageSrc: '/I6.jpg',
-    imageSrcSecondary: '/I6.jpg',
+    imageSrcSecondary: '/I6(2).jpg',
     title: 'I6',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I6 ?',
@@ -99,7 +99,7 @@ const QUESTIONS = [
   {
     id: 'I5',
     imageSrc: '/I5.jpg',
-    imageSrcSecondary: '/I5.jpg',
+    imageSrcSecondary: '/I5(2).jpg',
     title: 'I5/O5',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I5/O5 ?',
@@ -114,7 +114,7 @@ const QUESTIONS = [
   {
     id: 'O3',
     imageSrc: '/O3.jpg',
-    imageSrcSecondary: '/O3.jpg',
+    imageSrcSecondary: '/O3(2).jpg',
     title: 'O3',
     prompt:
       'Quel est le rôle du mécanisme O3 ?',
@@ -130,7 +130,7 @@ const QUESTIONS = [
   {
     id: 'O7',
     imageSrc: '/O7.jpg',
-    imageSrcSecondary: '/O7.jpg',
+    imageSrcSecondary: '/O7(2).jpg',
     title: 'O7',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé aux détecteurs O7 ?',
