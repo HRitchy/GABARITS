@@ -43,9 +43,9 @@ const QUESTIONS = [
     title: 'O2',
     prompt:
       'Quel est le rôle du support de rattrape-câbles O2 ?',
-    correctAnswer: 'Supports qui maintiennent le câble tracteur en position si le câble déraille de son logement',
+    correctAnswer: 'Maintien le câble porteur-tracteur en position si le câble déraille de son logement',
     choices: [
-      'Supports qui maintiennent le câble tracteur en position si le câble déraille de son logement',
+      'Maintien le câble porteur-tracteur en position si le câble déraille de son logement',
       'Position du câble dans la zone d’embrayage - entrée',
       'Ouverture de l’attache vide',
       'Position de repos de l’attache, présence des galets de guidage et de roulement',
@@ -58,10 +58,10 @@ const QUESTIONS = [
     title: 'I3-I2',
     prompt:
       'Quel est le rôle du support de rattrape-câbles I3-I2 ?',
-    correctAnswer: 'Support qui maintient le câble tracteur en position si le câble déraille de son logement en entrant dans la zone de débrayage',
+    correctAnswer: 'Maintien le câble tracteur en position si le câble déraille de son logement en entrant dans la zone de débrayage',
     choices: [
       'Position du câble avant et après lembrayage',
-      'Support qui maintient le câble tracteur en position si le câble déraille de son logement en entrant dans la zone de débrayage',
+      'Maintien le câble tracteur en position si le câble déraille de son logement en entrant dans la zone de débrayage',
       'Présence du galet de débrayage',
       'Position de l’attache accouplée au câble',
     ],
