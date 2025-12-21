@@ -103,7 +103,7 @@ const QUESTIONS = [
     title: 'I5/O5',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I5/O5 ?',
-    correctAnswer: 'Ouverture de l'attache vide',
+    correctAnswer: 'Ouverture de l\'attache vide',
     choices: [
       'S\'assurer de la bonne position de l’attache accouplée au câble',
       'Signale le mauvais positionnement du câble porteur-tracteur et veillent à ce que  le câble porteur-tracteur restent en bonne position',
