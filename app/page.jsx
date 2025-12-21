@@ -13,11 +13,11 @@ const QUESTIONS = [
     title: 'I0',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I0 ?',
-    correctAnswer: 'Détecter l'usure sur les mors d’attache et les paliers lisses',
+    correctAnswer: 'Détecter l\'usure sur les mors d’attache et les paliers lisses',
     choices: [
       'Vérifier la présence du galet manœuvre',
-      'S'assurer de la bonne position de l’attache accouplée au câble',
-      'Détecter l'usure sur les mors d’attache et les paliers lisses',
+      'S\'assurer de la bonne position de l’attache accouplée au câble',
+      'Détecter l\'usure sur les mors d’attache et les paliers lisses',
       'Ouverture de l’attache vide',
     ],
   },
@@ -28,12 +28,12 @@ const QUESTIONS = [
     title: 'I1',
     prompt:
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I1 ?',
-    correctAnswer: 'S'assurer de la bonne position de l’attache accouplée au câble',
+    correctAnswer: 'S\'assurer de la bonne position de l’attache accouplée au câble',
     choices: [
       'Signale le mauvais positionnement du câble porteur-tracteur et veillent à ce que  le câble porteur-tracteur restent en bonne position',
-      'Détecter l'usure sur les mors d’attache et les paliers lisses',
+      'Détecter l\'usure sur les mors d’attache et les paliers lisses',
       'Dispositif de positionnement forcé du câble porteur-tracteur',
-      'S'assurer de la bonne position de l’attache accouplée au câble',
+      'S\'assurer de la bonne position de l’attache accouplée au câble',
     ],
   },
   {
@@ -63,7 +63,7 @@ const QUESTIONS = [
       'Signale le mauvais positionnement du câble porteur-tracteur et veillent à ce que  le câble porteur-tracteur restent en bonne position',
       'Recueillir et maintenir le câble porteur-tracteur en cas de déraillement (zone de débrayage)',
       'Vérifier la présence du galet manœuvre',
-      'PS'assurer de la bonne position de l’attache accouplée au câble',
+      'S\'assurer de la bonne position de l’attache accouplée au câble',
     ],
   },
   {
@@ -76,8 +76,8 @@ const QUESTIONS = [
     correctAnswer: 'Signale le mauvais positionnement du câble porteur-tracteur et veillent à ce que  le câble porteur-tracteur restent en bonne position',
     choices: [
       'Dispositif de positionnement forcé du câble porteur-tracteur',
-      'S'assurer de la bonne position de l’attache accouplée au câble',
-      'Détecter l'usure sur les mors d’attache et les paliers lisses',
+      'S\'assurer de la bonne position de l’attache accouplée au câble',
+      'Détecter l\'usure sur les mors d’attache et les paliers lisses',
       'Signale le mauvais positionnement du câble porteur-tracteur et veillent à ce que  le câble porteur-tracteur restent en bonne position',
     ],
   },
@@ -91,7 +91,7 @@ const QUESTIONS = [
     correctAnswer: 'Vérifier la présence du galet manoeuvre',
     choices: [
       'Vérifier la présence du galet manoeuvre',
-      'S'assurer de la bonne position de l’attache accouplée au câble',
+      'S\'assurer de la bonne position de l’attache accouplée au câble',
       'Contrôler la position de repos de l’attache, la présence du galet de guidage et des galets de roulements',
       'Ouverture de l’attache vide',
     ],
@@ -105,10 +105,10 @@ const QUESTIONS = [
       'Quelle est la fonction du gabarit de contrôle associé au détecteur I5/O5 ?',
     correctAnswer: 'Ouverture de l'attache vide',
     choices: [
-      'S'assurer de la bonne position de l’attache accouplée au câble',
+      'S\'assurer de la bonne position de l’attache accouplée au câble',
       'Signale le mauvais positionnement du câble porteur-tracteur et veillent à ce que  le câble porteur-tracteur restent en bonne position',
-      'Ouverture de l'attache vide',
-      'Détecter l'usure sur les mors d’attache et les paliers lisses',
+      'Ouverture de l\'attache vide',
+      'Détecter l\'usure sur les mors d’attache et les paliers lisses',
     ],
   },
   {
@@ -124,7 +124,7 @@ const QUESTIONS = [
       'Dispositif de positionnement forcé du câble porteur-tracteur',
       'Recueillir et maintenir le câble porteur-tracteur en cas de déraillement (zone de débrayage)',
       'Vérifier la présence du galet manœuvre',
-      'S'assurer de la bonne position de l’attache accouplée au câble',
+      'S\'assurer de la bonne position de l’attache accouplée au câble',
     ],
   },
   {
@@ -137,10 +137,10 @@ const QUESTIONS = [
     correctAnswer:
       'Contrôler la position de repos de l’attache, la présence du galet de guidage et des galets de roulements',
     choices: [
-      'Ouverture de l'attache vide',
+      'Ouverture de l\'attache vide',
       'Signale le mauvais positionnement du câble porteur-tracteur et veillent à ce que  le câble porteur-tracteur restent en bonne position',
       'Contrôler la position de repos de l’attache, la présence du galet de guidage et des galets de roulements',
-      'Détecter l'usure sur les mors d’attache et les paliers lisses',
+      'Détecter l\'usure sur les mors d’attache et les paliers lisses',
     ],
   },
 ];
