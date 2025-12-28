@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const POINTS_PAR_QUESTION = 2.2225;
+const N8N_WEBHOOK_URL =
+  'https://n8n.lazare974.tech/webhook/edaa9e62-a3ea-4a38-a9c8-90edb34570ce';
 
 const QUESTIONS = [
   {
@@ -224,14 +226,11 @@ export default function HomePage() {
       };
 
       try {
-        const response = await fetch(
-          'https://n8n.lazare974.tech/webhook/edaa9e62-a3ea-4a38-a9c8-90edb34570ce',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          }
-        );
+        const response = await fetch(N8N_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
 
         if (!response.ok) {
           throw new Error('Le serveur a renvoyé une erreur');
