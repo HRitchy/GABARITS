@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const POINTS_PAR_QUESTION = 2.2225;
 const N8N_WEBHOOK_URL =
@@ -156,31 +156,53 @@ export default function HomePage() {
     Array(QUESTIONS.length).fill(null)
   );
   const [showResults, setShowResults] = useState(false);
-  const [hasSentResults, setHasSentResults] = useState(false);
   const [submissionState, setSubmissionState] = useState('idle');
   const [submissionError, setSubmissionError] = useState(null);
 
   const currentQuestion = QUESTIONS[currentIndex];
   const selectedForCurrent = answers[currentIndex];
 
-  const handleChoiceClick = (choice) => {
-    if (showResults) return;
-    if (answers[currentIndex] !== null) return;
+  const totalCorrect = useMemo(
+    () =>
+      QUESTIONS.reduce((sum, question, index) => {
+        const answered = answers[index];
+        if (answered === question.correctAnswer) return sum + 1;
+        return sum;
+      }, 0),
+    [answers]
+  );
 
-    setAnswers((prev) => {
-      const next = [...prev];
-      next[currentIndex] = choice;
-      return next;
-    });
-  };
+  const scoreSur20 = useMemo(
+    () => Math.round(totalCorrect * POINTS_PAR_QUESTION * 100) / 100,
+    [totalCorrect]
+  );
 
-  const handleNext = () => {
+  const answeredCount = answers.filter((value) => value !== null).length;
+  const progressPercent = Math.round(
+    (answeredCount / QUESTIONS.length) * 100
+  );
+
+  const handleChoiceClick = useCallback(
+    (choice) => {
+      if (showResults) return;
+      if (answers[currentIndex] !== null) return;
+
+      setAnswers((prev) => {
+        const next = [...prev];
+        next[currentIndex] = choice;
+        return next;
+      });
+    },
+    [answers, currentIndex, showResults]
+  );
+
+  const handleNext = useCallback(() => {
     if (currentIndex === QUESTIONS.length - 1) {
       setShowResults(true);
       return;
     }
     setCurrentIndex((prev) => prev + 1);
-  };
+  }, [currentIndex]);
 
   const handleRestart = () => {
     setFirstName('');
@@ -189,78 +211,92 @@ export default function HomePage() {
     setAnswers(Array(QUESTIONS.length).fill(null));
     setCurrentIndex(0);
     setShowResults(false);
-    setHasSentResults(false);
     setSubmissionState('idle');
     setSubmissionError(null);
   };
 
-  const totalCorrect = QUESTIONS.reduce((sum, question, index) => {
-    const answered = answers[index];
-    if (answered === question.correctAnswer) return sum + 1;
-    return sum;
-  }, 0);
+  const sendResults = useCallback(async () => {
+    setSubmissionState('sending');
+    setSubmissionError(null);
 
-  const scoreSur20 =
-    Math.round(totalCorrect * POINTS_PAR_QUESTION * 100) / 100;
+    const payload = {
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      totalCorrect,
+      scoreSur20,
+      answers: QUESTIONS.map((question, index) => ({
+        questionId: question.id,
+        title: question.title,
+        prompt: question.prompt,
+        selectedAnswer: answers[index],
+        correctAnswer: question.correctAnswer,
+        isCorrect: answers[index] === question.correctAnswer,
+      })),
+    };
 
-  const quizTermine = answers.every((value) => value !== null);
+    try {
+      const response = await fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Le serveur a renvoyé une erreur');
+      }
+
+      setSubmissionState('success');
+    } catch (error) {
+      setSubmissionState('error');
+      setSubmissionError(
+        error instanceof Error
+          ? error.message
+          : 'Une erreur inconnue est survenue'
+      );
+    }
+  }, [answers, firstName, lastName, scoreSur20, totalCorrect]);
 
   useEffect(() => {
-    const sendResults = async () => {
-      setSubmissionState('sending');
-      setSubmissionError(null);
+    if (showResults && submissionState === 'idle') {
+      void sendResults();
+    }
+  }, [sendResults, showResults, submissionState]);
 
-      const payload = {
-        firstName,
-        lastName,
-        totalCorrect,
-        scoreSur20,
-        answers: QUESTIONS.map((question, index) => ({
-          questionId: question.id,
-          title: question.title,
-          prompt: question.prompt,
-          selectedAnswer: answers[index],
-          correctAnswer: question.correctAnswer,
-          isCorrect: answers[index] === question.correctAnswer,
-        })),
-      };
+  useEffect(() => {
+    if (!hasStarted || showResults) return;
 
-      try {
-        const response = await fetch(N8N_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowRight' && selectedForCurrent) {
+        event.preventDefault();
+        handleNext();
+        return;
+      }
 
-        if (!response.ok) {
-          throw new Error('Le serveur a renvoyé une erreur');
-        }
-
-        setSubmissionState('success');
-      } catch (error) {
-        setSubmissionState('error');
-        setSubmissionError(
-          error instanceof Error
-            ? error.message
-            : 'Une erreur inconnue est survenue'
-        );
-      } finally {
-        setHasSentResults(true);
+      const choiceIndex = Number(event.key) - 1;
+      if (
+        choiceIndex >= 0 &&
+        choiceIndex < currentQuestion.choices.length &&
+        answers[currentIndex] === null
+      ) {
+        event.preventDefault();
+        handleChoiceClick(currentQuestion.choices[choiceIndex]);
       }
     };
 
-    if (showResults && !hasSentResults) {
-      void sendResults();
-    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [
     answers,
-    firstName,
-    hasSentResults,
-    lastName,
-    scoreSur20,
+    currentIndex,
+    currentQuestion,
+    handleChoiceClick,
+    handleNext,
+    hasStarted,
+    selectedForCurrent,
     showResults,
-    totalCorrect,
   ]);
+
+  const quizTermine = answers.every((value) => value !== null);
 
   let content;
 
@@ -398,19 +434,43 @@ export default function HomePage() {
 
           <section className="mb-8 rounded-xl border border-slate-700 bg-slate-800/60 p-4 text-sm sm:text-base">
             <p className="font-semibold mb-2">Envoi des résultats</p>
-            {submissionState === 'sending' && (
-              <p className="text-slate-300">Envoi en cours…</p>
-            )}
-            {submissionState === 'success' && (
-              <p className="text-emerald-400">
-                Résultats envoyés avec succès au serveur.
+            <p className="text-slate-300 text-sm mb-3">
+              L’envoi est automatique à l’arrivée sur cette page. Tu peux aussi
+              relancer manuellement l’envoi en cas d’erreur.
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => void sendResults()}
+                disabled={submissionState === 'sending'}
+                className="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-semibold"
+              >
+                {submissionState === 'sending'
+                  ? 'Envoi en cours…'
+                  : 'Relancer l’envoi'}
+              </button>
+              <p
+                className="text-sm"
+                aria-live="polite"
+              >
+                {submissionState === 'success' && (
+                  <span className="text-emerald-400">
+                    Résultats envoyés avec succès au serveur.
+                  </span>
+                )}
+                {submissionState === 'error' && (
+                  <span className="text-rose-400">
+                    Erreur lors de l’envoi :{' '}
+                    {submissionError ?? 'inconnue'}.
+                  </span>
+                )}
+                {submissionState === 'idle' && (
+                  <span className="text-slate-300">
+                    Résultats prêts à être envoyés.
+                  </span>
+                )}
               </p>
-            )}
-            {submissionState === 'error' && (
-              <p className="text-rose-400">
-                Erreur lors de l’envoi : {submissionError ?? 'inconnue'}.
-              </p>
-            )}
+            </div>
           </section>
 
           <div className="flex justify-center">
@@ -437,6 +497,10 @@ export default function HomePage() {
               9 questions, chaque bonne réponse vaut à peu près 2 points. Note
               finale sur 20.
             </p>
+            <p className="text-slate-400 text-xs sm:text-sm mt-3">
+              Astuce : utilise les touches 1, 2, 3 ou 4 pour répondre et la
+              flèche droite pour passer à la question suivante.
+            </p>
           </header>
 
           <section className="mb-6 flex justify-between items-center text-sm sm:text-base">
@@ -451,6 +515,21 @@ export default function HomePage() {
             </span>
           </section>
 
+          <div className="mb-6">
+            <div className="flex justify-between text-xs sm:text-sm text-slate-300 mb-2">
+              <span>
+                {answeredCount} / {QUESTIONS.length} questions répondues
+              </span>
+              <span>{progressPercent}% complété</span>
+            </div>
+            <div className="h-2 rounded-full bg-slate-800 border border-slate-700 overflow-hidden">
+              <div
+                className="h-full bg-sky-500 transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
+
           <section className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-start">
             <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-3 sm:p-4">
               <div className="grid gap-3">
@@ -461,7 +540,7 @@ export default function HomePage() {
                   height={800}
                   className="w-full h-auto rounded-lg shadow-lg border border-slate-700 bg-slate-900"
                   sizes="(min-width: 1024px) 640px, 100vw"
-                  priority
+                  priority={currentIndex === 0}
                 />
                 <Image
                   src={currentQuestion.imageSrcSecondary}
@@ -470,6 +549,7 @@ export default function HomePage() {
                   height={800}
                   className="w-full h-auto rounded-lg shadow-lg border border-slate-700 bg-slate-900"
                   sizes="(min-width: 1024px) 640px, 100vw"
+                  loading="lazy"
                 />
               </div>
             </div>
